@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonRequestPermissions.setOnClickListener {
             PermissionHandler.requestPermissions(permissionLauncher = permissionLauncher)
+            PermissionHandler.checkAndRequestDefaultDialer(
+                activity = this@MainActivity,
+                packageName = packageName
+            )
         }
     }
 }
