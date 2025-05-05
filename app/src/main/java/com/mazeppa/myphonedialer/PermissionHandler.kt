@@ -27,26 +27,26 @@ object PermissionHandler {
         permissionLauncher.launch(permissionsToRequest.toTypedArray())
     }
 
-    fun requestDefaultPhoneApp(
-        context: Activity,
-        startActivityForResult: ActivityResultLauncher<Intent>,
-    ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val roleManager = context.getSystemService(RoleManager::class.java)
-            if (roleManager.isRoleAvailable(RoleManager.ROLE_DIALER) &&
-                !roleManager.isRoleHeld(RoleManager.ROLE_DIALER)
-            ) {
-                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER)
-                startActivityForResult.launch(intent)
-            }
-        } else {
-            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-                putExtra(
-                    TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
-                    context.packageName
-                )
-            }
-            startActivityForResult.launch(intent)
-        }
-    }
+//    fun requestDefaultPhoneApp(
+//        context: Activity,
+//        startActivityForResult: ActivityResultLauncher<Intent>,
+//    ) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            val roleManager = context.getSystemService(RoleManager::class.java)
+//            if (roleManager.isRoleAvailable(RoleManager.ROLE_DIALER) &&
+//                !roleManager.isRoleHeld(RoleManager.ROLE_DIALER)
+//            ) {
+//                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER)
+//                startActivityForResult.launch(intent)
+//            }
+//        } else {
+//            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+//                putExtra(
+//                    TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
+//                    context.packageName
+//                )
+//            }
+//            startActivityForResult.launch(intent)
+//        }
+//    }
 }

@@ -1,5 +1,6 @@
 package com.mazeppa.myphonedialer
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -20,15 +21,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setListeners()
+
+        binding.buttonRequestPermissions.setOnClickListener {
+            this@MainActivity.startActivity(
+                Intent(this@MainActivity, SecondActivity::class.java)
+            )
+        }
+
+//        setListeners()
     }
 
-    private fun setListeners() {
-        binding.apply {
-            buttonRequestPermissions.setOnClickListener {
-                PermissionHandler.requestPermissions(permissionLauncher)
-                PermissionHandler.requestDefaultPhoneApp(this@MainActivity, startActivityForResult)
-            }
-        }
-    }
+//    private fun setListeners() {
+//        binding.apply {
+//            buttonRequestPermissions.setOnClickListener {
+//                PermissionHandler.requestPermissions(permissionLauncher)
+//                PermissionHandler.requestDefaultPhoneApp(this@MainActivity, startActivityForResult)
+//            }
+//        }
+//    }
 }

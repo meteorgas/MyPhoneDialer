@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MyPhoneDialer</string>
     <string name="text_request_permissions">Request Permissions</string>
+    <string name="text_second_activity">Second Activity</string>
 </resources>
