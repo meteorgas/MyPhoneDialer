@@ -10,6 +10,9 @@ class MainActivity : AppCompatActivity() {
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {}
+    private val startActivityForResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {}
 
     private lateinit var binding: ActivityMainBinding
 
@@ -17,13 +20,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setListeners()
+    }
 
-        binding.buttonRequestPermissions.setOnClickListener {
-            PermissionHandler.requestPermissions(permissionLauncher = permissionLauncher)
-            PermissionHandler.checkAndRequestDefaultDialer(
-                activity = this@MainActivity,
-                packageName = packageName
-            )
+    private fun setListeners() {
+        binding.apply {
+            buttonRequestPermissions.setOnClickListener {
+                PermissionHandler.requestPermissions(permissionLauncher)
+                PermissionHandler.requestDefaultPhoneApp(this@MainActivity, startActivityForResult)
+            }
         }
     }
 }

@@ -2,14 +2,11 @@ package com.mazeppa.myphonedialer
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.Context.TELECOM_SERVICE
+import android.app.role.RoleManager
 import android.content.Intent
 import android.os.Build
 import android.telecom.TelecomManager
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.core.content.ContextCompat.startActivity
 
 object PermissionHandler {
 
@@ -30,23 +27,26 @@ object PermissionHandler {
         permissionLauncher.launch(permissionsToRequest.toTypedArray())
     }
 
-    fun checkAndRequestDefaultDialer(
-        activity: Activity,
-        packageName: String
+    fun requestDefaultPhoneApp(
+        context: Activity,
+        startActivityForResult: ActivityResultLauncher<Intent>,
     ) {
-        val telecomManager = activity.getSystemService(TELECOM_SERVICE) as TelecomManager
-        val currentPackageName = packageName
-
-        if (telecomManager.defaultDialerPackage != currentPackageName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val roleManager = context.getSystemService(RoleManager::class.java)
+            if (roleManager.isRoleAvailable(RoleManager.ROLE_DIALER) &&
+                !roleManager.isRoleHeld(RoleManager.ROLE_DIALER)
+            ) {
+                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER)
+                startActivityForResult.launch(intent)
+            }
+        } else {
             val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
                 putExtra(
                     TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
-                    currentPackageName
+                    context.packageName
                 )
             }
-            activity.startActivity(intent)
-        } else {
-            Toast.makeText(activity, "Already default dialer", Toast.LENGTH_SHORT).show()
+            startActivityForResult.launch(intent)
         }
     }
 }
