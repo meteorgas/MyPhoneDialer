@@ -36,17 +36,22 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.DIAL" />
-                <action android:name="android.intent.action.CALL" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tel" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.CALL" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="tel" />
             </intent-filter>
         </activity>
 
-        <!-- Dialer Activity -->
         <activity
             android:name=".DialerActivity"
             android:exported="true">
@@ -61,7 +66,6 @@
             </intent-filter>
         </activity>
 
-        <!-- ConnectionService -->
         <service
             android:name=".MyConnectionService"
             android:exported="true"
@@ -71,7 +75,6 @@
             </intent-filter>
         </service>
 
-        <!-- InCallService -->
         <service
             android:name=".MyInCallService"
             android:exported="true"
